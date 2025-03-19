@@ -46,9 +46,22 @@ function createGameboard() {
         return null;
     }
 
+    function checkAll() {
+        return checkEqualHorizontals || checkEqualVerticals || checkEqualDiagonals;
+    }
+
+    function printBoard() {
+        for (let i = 0; i < 3; i++) {
+            console.log(
+                `${board[i][0].getSymbol()} | ${board[i][1].getSymbol()} | ${board[i][2].getSymbol()}`
+            )
+            console.log("______")
+        }
+    }
+
     populateBoard();
 
-    return { updateCell }
+    return { updateCell, checkAll, printBoard }
 }
 
 function createPlayer(name, symbol) {
@@ -76,6 +89,11 @@ const Game = (function () {
         let winningSet;
         while (!winningSet) {
             console.log(`round #${round}, player${currentPlayer.getName()}`);
+            board.printBoard();
+            const move = prompt("pi")
         }
     }
+
+    return { play }
 })();
+
