@@ -52,11 +52,11 @@ function createGameboard() {
         if (board[1][1]) {
             if (board[0][0] === board[1][1] && board[1][1] == board[2][2]) {
                 return {
-                    direction: "left-diagonal"
+                    direction: "left diagonal"
                 }
             } else if (board[2][0] === board[1][1] && board[1][1] === board[0][2]) {
                 return {
-                    direction: "right-diagonal"
+                    direction: "right diagonal"
                 }
             }
         }
@@ -186,7 +186,7 @@ const DisplayController = (function () {
             e.target.textContent = player.getSymbol();
             const result = game.checkWin();
             if (result) {
-                handleWin(result);
+                handleGameOver(result);
             } else {
                 updateTextFeedback(
                     `Player ${player.getName()} (${player.getSymbol()}) took cell [${row}, ${column}]`);
@@ -201,8 +201,17 @@ const DisplayController = (function () {
         }
     }
 
-    function handleWin(result) {
+    function handleGameOver(result) {
         disableCells();
+
+        if (result.direction !== "none") {
+            updateTextFeedback(`
+                Player ${result.winner.getName()} (${result.winner.getSymbol()}) won with a ${result.direction}
+                `);
+        } else {
+            updateTextFeedback(`It is a tie! No one wins!`);
+        }
+
         switch (result.direction) {
             case "horizontal":
                 style1DCells("row", result.row, "picked");
@@ -210,11 +219,11 @@ const DisplayController = (function () {
             case "vertical":
                 style1DCells("column", result.column, "picked");
                 break;
-            case "left-diagonal":
-                styleDiagonalCells("left-diagonal", "picked");
+            case "left diagonal":
+                styleDiagonalCells("left diagonal", "picked");
                 break;
-            case "right-diagonal":
-                styleDiagonalCells("right-diagonal", "picked");
+            case "right diagonal":
+                styleDiagonalCells("right diagonal", "picked");
                 break;
             default:
                 styleAllCells("tie");
@@ -239,7 +248,7 @@ const DisplayController = (function () {
 
     function styleDiagonalCells(direction, newClass) {
         const cells = [];
-        if (direction === "left-diagonal") {
+        if (direction === "left diagonal") {
             for (let i = 0; i < 3; i++) {
                 cells.push(document.querySelector(
                     `.cell[data-row="${i}"][data-column="${i}"]`));
