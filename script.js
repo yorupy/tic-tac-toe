@@ -98,50 +98,27 @@ function createPlayer(name, symbol) {
     return { getName, getSymbol }
 }
 
+const DisplayController = (function () {
+    // function createBoard() {
+    //     const main = document.querySelector("main");
+    //     const board = document.createElement("div");
+    //     board.classList.add("board");
+    // }
+});
 
-const Game = (function () {
-    const players = [createPlayer("one", "x"), createPlayer("two", "o")];
+
+function createGame(playerOne, playerTwo) {
+    const players = [playerOne, playerTwo];
     const board = createGameboard();
     let round = 0;
     let currentPlayer = players[0];
-    function changePlayer() {
+    function changeCurrentPlayer() {
         currentPlayer = players[round % 2];
     }
+    const getBoard = () => board;
+    const getPlayers = () => players;
+    const getCurrentPlayer = () => currentPlayer;
+    const getRound = () => round;
 
-    function doPlayerMove() {
-        let move;
-        do {
-            const input = prompt("Select row, column: ");
-            const [row, column] = input.split(",");
-            move = board.updateCell(row, column, currentPlayer);
-        } while (move === "occupied")
-    }
-
-    function printWinner(result) {
-        if (result[0] === "tie") {
-            console.log("Is a tie!! nobody wins!!");
-        } else {
-            const winner = result[2];
-            console.log(`Player ${winner.getName()} wins!`)
-        }
-    }
-
-    function play() {
-        console.log("Starting game...");
-        board.print();
-        let winningSet;
-        while (!winningSet) {
-            console.log(`round #${round}, player${currentPlayer.getName()}`);
-            doPlayerMove();
-            round++;
-            changePlayer();
-            board.print();
-            winningSet = board.checkAll();
-        }
-        printWinner(winningSet);
-    }
-
-    return { play }
-})();
-
-Game.play();
+    return { getBoard, getPlayers, getCurrentPlayer, getRound, changeCurrentPlayer }
+}
