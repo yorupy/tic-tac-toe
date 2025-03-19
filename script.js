@@ -22,7 +22,7 @@ function createGameboard() {
             if (!board[i][0]) continue;
             if (board[i][0] === board[i][1] &&
                 board[i][1] === board[i][2]) {
-                return ["horizontal", [[i, 0], [i, 1], [i, 2]]]
+                return ["horizontal", [[i, 0], [i, 1], [i, 2]], board[i][0]];
             }
         }
         return null;
@@ -33,7 +33,7 @@ function createGameboard() {
             if (!board[0][i]) continue;
             if (board[0][i] === board[1][i] &&
                 board[1][i] === board[2][i]) {
-                return ["vertical", [[0, i], [1, i], [2, i]]];
+                return ["vertical", [[0, i], [1, i], [2, i]], board[0][i]];
             }
         }
         return null;
@@ -42,9 +42,9 @@ function createGameboard() {
     function checkEqualDiagonals() {
         if (board[1][1]) {
             if (board[0][0] === board[1][1] && board[1][1] == board[2][2]) {
-                return ["left-diagonal", [[0, 0], [1, 1], [2, 2]]];
+                return ["left-diagonal", [[0, 0], [1, 1], [2, 2]], board[1][1]];
             } else if (board[2][0] === board[1][1] && board[1][1] === board[0][2]) {
-                return ["right-diagonal", [[2, 0], [1, 1], [0, 2]]];
+                return ["right-diagonal", [[2, 0], [1, 1], [0, 2]], board[1][1]];
             }
         }
         return null;
@@ -58,11 +58,14 @@ function createGameboard() {
                 }
             }
         }
-        return ["tie", null];
+        return ["tie", null, null];
     }
 
     function checkAll() {
-        return checkEqualHorizontals() || checkEqualVerticals() || checkEqualDiagonals() || checkFull();
+        return checkEqualHorizontals() ||
+            checkEqualVerticals() ||
+            checkEqualDiagonals() ||
+            checkFull();
     }
 
     function getCellSymbol(row, column) {
@@ -118,7 +121,7 @@ const Game = (function () {
         if (result[0] === "tie") {
             console.log("Is a tie!! nobody wins!!");
         } else {
-            const winner = board[result[1][0][0], result[1][0][1]];
+            const winner = result[2];
             console.log(`Player ${winner.getName()} wins!`)
         }
     }
