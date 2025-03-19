@@ -166,32 +166,39 @@ const DisplayController = (function () {
         disableCells();
         switch (result.direction) {
             case "horizontal":
-                updateCellsClass("row", result.row, "picked");
+                style1DCells("row", result.row, "picked");
                 break;
             case "vertical":
-                updateCellsClass("column", result.column, "picked");
+                style1DCells("column", result.column, "picked");
                 break;
             case "left-diagonal":
-                updateDiagonalCellsClass("left-diagonal", "picked");
+                styleDiagonalCells("left-diagonal", "picked");
                 break;
             case "right-diagonal":
-                updateDiagonalCellsClass("right-diagonal", "picked");
+                styleDiagonalCells("right-diagonal", "picked");
                 break;
-
-
-
+            default:
+                styleAllCells("tie");
         }
     }
 
-    function updateCellsClass(direction, index, newClass) {
+    function styleElements(elements, newClass) {
+        for (const element of elements) {
+            element.classList.add(newClass);
+        }
+    }
+
+    function styleAllCells(newClass) {
+        const cells = document.querySelectorAll(".cell");
+        styleElements(cells, newClass);
+    }
+
+    function style1DCells(direction, index, newClass) {
         const cells = document.querySelectorAll(`.cell[data-${direction}="${index}"]`);
-        console.log(cells)
-        for (const cell of cells) {
-            cell.classList.add(newClass);
-        }
+        styleElements(cells, newClass);
     }
 
-    function updateDiagonalCellsClass(direction, newClass) {
+    function styleDiagonalCells(direction, newClass) {
         const cells = [];
         if (direction === "left-diagonal") {
             for (let i = 0; i < 3; i++) {
@@ -204,9 +211,7 @@ const DisplayController = (function () {
                     `.cell[data-row="${2 - i}"][data-column="${i}"]`));
             }
         }
-        for (const cell of cells) {
-            cell.classList.add(newClass);
-        }
+        styleElements(cells, newClass);
     }
 
     function createBoard() {

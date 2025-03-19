@@ -23,3 +23,7 @@ body {
 .cell.picked {
     background-color: green;
 }
+
+.cell.tie {
+    background-color: brown;
+}
