@@ -24,6 +24,9 @@ function createPlayer(name, symbol) {
 
 
 const Game = (function () {
-
+    const players = [createPlayer("one", "x"), createPlayer("two", "o")];
+    const board = createGameboard();
+    let round = 0;
+    let currentPlayer = players[0];
 
 })();
