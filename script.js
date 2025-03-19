@@ -82,10 +82,6 @@ function createGameboard() {
             checkFull();
     }
 
-    function getCellSymbol(row, column) {
-        return board[row][column] ? board[row][column].getSymbol() : " ";
-    }
-
     populate();
 
     return { updateCell, checkAll }
@@ -150,9 +146,30 @@ const DisplayController = (function () {
         if (game.getBoard().updateCell(row, column, player)) {
             e.target.textContent = player.getSymbol();
             const result = game.checkWin();
-            console.log(result);
-            game.changeCurrentPlayer();
+            if (result) {
+                handleWin(result);
+            } else {
+                game.changeCurrentPlayer();
+            }
         }
+    }
+
+    function disableCells() {
+        const cells = document.querySelectorAll(".cell");
+        for (const cell of cells) {
+            cell.disabled = true;
+        }
+    }
+
+    function handleWin(result) {
+        disableCells();
+        switch (result.direction) {
+
+        }
+    }
+
+    function updateWinnerRow(row) {
+
     }
 
     function createBoard() {
