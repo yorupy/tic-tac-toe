@@ -121,10 +121,9 @@ function createGame(playerOne, playerTwo) {
 
     }
 
-    const getBoard = () => board;
     const getCurrentPlayer = () => currentPlayer;
 
-    return { getBoard, getCurrentPlayer, changeCurrentPlayer, checkWin }
+    return { updateCell: board.updateCell, getCurrentPlayer, checkWin }
 }
 
 const DisplayController = (function () {
@@ -152,11 +151,10 @@ const DisplayController = (function () {
         main.append(board);
     }
 
-
     function handleCellClick(e) {
         const { row, column } = e.target.dataset;
         const player = game.getCurrentPlayer();
-        if (game.getBoard().updateCell(row, column, player)) {
+        if (game.updateCell(row, column, player)) {
             e.target.textContent = player.getSymbol();
             const result = game.checkWin();
             if (result) {
