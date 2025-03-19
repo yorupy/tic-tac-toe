@@ -137,7 +137,7 @@ function createGame(playerOne, playerTwo) {
 
 
 const DisplayController = (function () {
-    const game = createGame(createPlayer("one", "x"), createPlayer("two", "o"));
+    let game = createGame(createPlayer("one", "x"), createPlayer("two", "o"));
     const main = document.querySelector("main");
 
     function appendMainElements() {
@@ -164,7 +164,8 @@ const DisplayController = (function () {
         div.classList.add("center");
         const feedback = createTextFeedback();
         const board = createBoard();
-        div.append(feedback, board);
+        const resetButton = createResetButton();
+        div.append(feedback, board, resetButton);
         return div;
     }
 
@@ -174,11 +175,26 @@ const DisplayController = (function () {
         button.textContent = "Start";
         button.classList.add("reset");
 
-        button.addEventListener("click")
+        button.addEventListener("click", handleResetClick);
+
+        return button;
+    }
+
+    function disableNameInputs() {
+        const playerOneInput = document.querySelector("#x");
+        const playerTwoInput = document.querySelector("#o");
+        playerOneInput.disabled = true;
+        playerTwoInput.disabled = true;
     }
 
     function handleResetClick(e) {
-
+        if (e.target.textContent === "Start") {
+            e.target.textContent = "Reset";
+            switchCells(false);
+            disableNameInputs();
+        } else {
+            resetDisplay();
+        }
     }
 
     function createPlayerBox(symbol, placeholder) {
@@ -205,7 +221,8 @@ const DisplayController = (function () {
         cell.textContent = " ";
         cell.setAttribute("data-row", row);
         cell.setAttribute("data-column", column);
-        cell.addEventListener("click", handleCellClick)
+        cell.addEventListener("click", handleCellClick);
+        cell.disabled = true;
         return cell;
     }
 
@@ -301,6 +318,12 @@ const DisplayController = (function () {
             }
         }
         styleElements(cells, newClass);
+    }
+
+    function resetDisplay() {
+        game = createGame(createPlayer("one", "x"), createPlayer("two", "o"));
+        main.replaceChildren();
+        appendMainElements();
     }
 
     appendMainElements();
