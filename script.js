@@ -19,7 +19,7 @@ function createGameboard() {
 
     function checkEqualHorizontals() {
         for (let i = 0; i < 3; i++) {
-            if (!board[0][i]) continue;
+            if (!board[i][0]) continue;
             if (board[i][0] === board[i][1] &&
                 board[i][1] === board[i][2]) {
                 return ["horizontal", [[i, 0], [i, 1], [i, 2]]]
@@ -62,7 +62,7 @@ function createGameboard() {
     }
 
     function checkAll() {
-        return checkEqualHorizontals || checkEqualVerticals || checkEqualDiagonals || checkFull;
+        return checkEqualHorizontals() || checkEqualVerticals() || checkEqualDiagonals() || checkFull();
     }
 
     function getCellSymbol(row, column) {
@@ -124,7 +124,9 @@ const Game = (function () {
             round++;
             changePlayer();
             board.print();
+            winningSet = board.checkAll();
         }
+        console.log(winningSet);
     }
 
     return { play }
