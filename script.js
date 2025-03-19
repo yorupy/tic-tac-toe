@@ -24,10 +24,13 @@ function createGameboard() {
             if (!board[i][0]) continue;
             if (board[i][0] === board[i][1] &&
                 board[i][1] === board[i][2]) {
-                return ["horizontal", [[i, 0], [i, 1], [i, 2]], board[i][0]];
+                return {
+                    direction: "horizontal",
+                    row: i
+                }
             }
         }
-        return null;
+        return false;
     }
 
     function checkEqualVerticals() {
@@ -35,21 +38,28 @@ function createGameboard() {
             if (!board[0][i]) continue;
             if (board[0][i] === board[1][i] &&
                 board[1][i] === board[2][i]) {
-                return ["vertical", [[0, i], [1, i], [2, i]], board[0][i]];
+                return {
+                    direction: "vertical",
+                    column: i
+                }
             }
         }
-        return null;
+        return false;
     }
 
     function checkEqualDiagonals() {
         if (board[1][1]) {
             if (board[0][0] === board[1][1] && board[1][1] == board[2][2]) {
-                return ["left-diagonal", [[0, 0], [1, 1], [2, 2]], board[1][1]];
+                return {
+                    direction: "left-diagonal"
+                }
             } else if (board[2][0] === board[1][1] && board[1][1] === board[0][2]) {
-                return ["right-diagonal", [[2, 0], [1, 1], [0, 2]], board[1][1]];
+                return {
+                    direction: "right-diagonal"
+                }
             }
         }
-        return null;
+        return false;
     }
 
     function checkFull() {
@@ -60,7 +70,9 @@ function createGameboard() {
                 }
             }
         }
-        return ["tie", null, null];
+        return {
+            direction: "none"
+        }
     }
 
     function checkAll() {
@@ -95,14 +107,28 @@ function createGame(playerOne, playerTwo) {
     let round = 0;
     let currentPlayer = players[0];
     function changeCurrentPlayer() {
+        round++;
         currentPlayer = players[round % 2];
     }
+
+    function checkWin() {
+        const result = board.checkAll();
+        if (result) {
+            return {
+                winner: currentPlayer,
+                ...result
+            };
+        }
+        return false;
+
+    }
+
     const getBoard = () => board;
     const getPlayers = () => players;
     const getCurrentPlayer = () => currentPlayer;
     const getRound = () => round;
 
-    return { getBoard, getPlayers, getCurrentPlayer, getRound, changeCurrentPlayer }
+    return { getBoard, getPlayers, getCurrentPlayer, getRound, changeCurrentPlayer, checkWin }
 }
 
 const DisplayController = (function () {
@@ -123,6 +149,9 @@ const DisplayController = (function () {
         const player = game.getCurrentPlayer();
         if (game.getBoard().updateCell(row, column, player)) {
             e.target.textContent = player.getSymbol();
+            const result = game.checkWin();
+            console.log(result);
+            game.changeCurrentPlayer();
         }
     }
 
