@@ -4,7 +4,7 @@ function createGameboard() {
     function populateBoard() {
         for (let i = 0; i < 3; i++) {
             board[i] = [];
-            for (let j = 0; i < 3; j++) {
+            for (let j = 0; j < 3; j++) {
                 board[i][j] = null;
             }
         }
@@ -15,10 +15,10 @@ function createGameboard() {
 
     function checkEqualHorizontals() {
         for (let i = 0; i < 3; i++) {
-            if (board[i][0] &&
-                board[i][0] === board[i][1] &&
+            if (!board[0][i]) continue;
+            if (board[i][0] === board[i][1] &&
                 board[i][1] === board[i][2]) {
-                return ["horizontal", i]
+                return ["horizontal", [[i, 0], [i, 1], [i, 2]]]
             }
         }
         return null;
@@ -26,10 +26,21 @@ function createGameboard() {
 
     function checkEqualVerticals() {
         for (let i = 0; i < 3; i++) {
-            if (board[0][i] &&
-                board[0][i] === board[1][i] &&
+            if (!board[0][i]) continue;
+            if (board[0][i] === board[1][i] &&
                 board[1][i] === board[2][i]) {
-                return ["vertical", i];
+                return ["vertical", [[0, i], [1, i], [2, i]]];
+            }
+        }
+        return null;
+    }
+
+    function checkEqualDiagonals() {
+        if (board[1][1]) {
+            if (board[0][0] === board[1][1] && board[1][1] == board[2][2]) {
+                return ["left-diagonal", [[0, 0], [1, 1], [2, 2]]];
+            } else if (board[2][0] === board[1][1] && board[1][1] === board[0][2]) {
+                return ["right-diagonal", [[2, 0], [1, 1], [0, 2]]];
             }
         }
         return null;
