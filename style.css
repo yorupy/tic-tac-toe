@@ -103,3 +103,10 @@ main {
 .player-box p span {
     font-weight: normal;
 }
+
+button.reset {
+    padding: 1rem 2rem;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
