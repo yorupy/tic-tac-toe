@@ -19,7 +19,13 @@ function createGameboard() {
 }
 
 function createPlayer(name, symbol) {
-    return { name, symbol }
+    function getName() {
+        return name;
+    }
+    function getSymbol() {
+        return symbol;
+    }
+    return { getName, getSymbol }
 }
 
 
@@ -28,5 +34,8 @@ const Game = (function () {
     const board = createGameboard();
     let round = 0;
     let currentPlayer = players[0];
+    function changePlayer() {
+        currentPlayer = players[round % 2];
+    }
 
 })();
