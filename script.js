@@ -172,6 +172,12 @@ const DisplayController = (function () {
                 updateCellsClass("column", result.column, "picked");
                 break;
             case "left-diagonal":
+                updateDiagonalCellsClass("left-diagonal", "picked");
+                break;
+            case "right-diagonal":
+                updateDiagonalCellsClass("right-diagonal", "picked");
+                break;
+
 
 
         }
@@ -180,6 +186,24 @@ const DisplayController = (function () {
     function updateCellsClass(direction, index, newClass) {
         const cells = document.querySelectorAll(`.cell[data-${direction}="${index}"]`);
         console.log(cells)
+        for (const cell of cells) {
+            cell.classList.add(newClass);
+        }
+    }
+
+    function updateDiagonalCellsClass(direction, newClass) {
+        const cells = [];
+        if (direction === "left-diagonal") {
+            for (let i = 0; i < 3; i++) {
+                cells.push(document.querySelector(
+                    `.cell[data-row="${i}"][data-column="${i}"]`));
+            }
+        } else {
+            for (let i = 0; i < 3; i++) {
+                cells.push(document.querySelector(
+                    `.cell[data-row="${2 - i}"][data-column="${i}"]`));
+            }
+        }
         for (const cell of cells) {
             cell.classList.add(newClass);
         }
