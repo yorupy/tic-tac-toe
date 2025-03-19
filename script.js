@@ -103,6 +103,7 @@ function createGame(playerOne, playerTwo) {
     const board = createGameboard();
     let round = 0;
     let currentPlayer = players[0];
+
     function changeCurrentPlayer() {
         round++;
         currentPlayer = players[round % 2];
@@ -126,8 +127,31 @@ function createGame(playerOne, playerTwo) {
     return { updateCell: board.updateCell, getCurrentPlayer, checkWin }
 }
 
+
 const DisplayController = (function () {
     const game = createGame(createPlayer("one", "x"), createPlayer("two", "o"));
+    const main = document.querySelector("main");
+
+    function appendMainElements() {
+        const center = createCenterContainer();
+        main.append(center);
+    }
+
+    function createTextFeedback() {
+        const paragraph = document.createElement("p");
+        paragraph.classList.add("feedback");
+        paragraph.textContent = "Waiting to start...";
+        return paragraph;
+    }
+
+    function createCenterContainer() {
+        const div = document.createElement("div");
+        div.classList.add("center");
+        const feedback = createTextFeedback();
+        const board = createBoard();
+        div.append(feedback, board);
+        return div;
+    }
 
     function createCell(row, column) {
         const cell = document.createElement("button");
@@ -140,7 +164,6 @@ const DisplayController = (function () {
     }
 
     function createBoard() {
-        const main = document.querySelector("main");
         const board = document.createElement("div");
         board.classList.add("board");
         for (let i = 0; i < 3; i++) {
@@ -148,7 +171,7 @@ const DisplayController = (function () {
                 board.append(createCell(i, j));
             }
         }
-        main.append(board);
+        return board;
     }
 
     function handleCellClick(e) {
@@ -222,5 +245,5 @@ const DisplayController = (function () {
         styleElements(cells, newClass);
     }
 
-    createBoard();
+    appendMainElements();
 })();
