@@ -76,7 +76,7 @@ function createGameboard() {
 
     populate();
 
-    return { updateCell, checkAll, print }
+    return { updateCell, checkAll }
 }
 
 function createPlayer(name, symbol) {
@@ -106,9 +106,27 @@ function createGame(playerOne, playerTwo) {
 }
 
 const DisplayController = (function () {
-    // function createBoard() {
-    //     const main = document.querySelector("main");
-    //     const board = document.createElement("div");
-    //     board.classList.add("board");
-    // }
-});
+    const game = createGame(createPlayer("one", "x"), createPlayer("two", "o"));
+
+    function createBoard() {
+        const main = document.querySelector("main");
+        const board = document.createElement("div");
+        board.classList.add("board");
+        for (let i = 0; i < 3; i++) {
+            const row = document.createElement("div");
+            row.classList.add("row");
+            for (let j = 0; j < 3; j++) {
+                const cell = document.createElement("button");
+                cell.classList.add("cell");
+                cell.textContent = " ";
+                cell.setAttribute("data-row", i);
+                cell.setAttribute("data-column", j);
+                row.append(cell);
+            }
+            board.append(row);
+        }
+        main.append(board);
+    }
+
+    createBoard();
+})();
