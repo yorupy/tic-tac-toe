@@ -142,8 +142,8 @@ const DisplayController = (function () {
 
     function appendMainElements() {
         const center = createCenterContainer();
-        const leftPlayerBox = createPlayerBox("x", "one", 0);
-        const rightPlayerBox = createPlayerBox("o", "two", 1);
+        const leftPlayerBox = createPlayerBox("x", "one");
+        const rightPlayerBox = createPlayerBox("o", "two");
         main.append(leftPlayerBox, center, rightPlayerBox);
     }
 
@@ -168,7 +168,20 @@ const DisplayController = (function () {
         return div;
     }
 
-    function createPlayerBox(symbol, placeholder, playerIndex) {
+    function createResetButton() {
+        const button = document.createElement("button");
+        button.setAttribute("type", "button");
+        button.textContent = "Start";
+        button.classList.add("reset");
+
+        button.addEventListener("click")
+    }
+
+    function handleResetClick(e) {
+
+    }
+
+    function createPlayerBox(symbol, placeholder) {
         const container = document.createElement("div");
         container.classList.add("player-box");
         const input = document.createElement("input");
@@ -222,15 +235,15 @@ const DisplayController = (function () {
         }
     }
 
-    function disableCells() {
+    function switchCells(disabledState) {
         const cells = document.querySelectorAll(".cell");
         for (const cell of cells) {
-            cell.disabled = true;
+            cell.disabled = disabledState;
         }
     }
 
     function handleGameOver(result) {
-        disableCells();
+        switchCells(true);
 
         if (result.direction !== "none") {
             updateTextFeedback(`
