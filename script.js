@@ -144,6 +144,11 @@ const DisplayController = (function () {
         return paragraph;
     }
 
+    function updateTextFeedback(text) {
+        const feedback = document.querySelector(".feedback");
+        feedback.textContent = text;
+    }
+
     function createCenterContainer() {
         const div = document.createElement("div");
         div.classList.add("center");
@@ -182,6 +187,9 @@ const DisplayController = (function () {
             const result = game.checkWin();
             if (result) {
                 handleWin(result);
+            } else {
+                updateTextFeedback(
+                    `Player ${player.getName()} (${player.getSymbol()}) took cell [${row}, ${column}]`);
             }
         }
     }
