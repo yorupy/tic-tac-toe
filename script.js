@@ -24,6 +24,17 @@ function createGameboard() {
         return null;
     }
 
+    function checkEqualVerticals() {
+        for (let i = 0; i < 3; i++) {
+            if (board[0][i] &&
+                board[0][i] === board[1][i] &&
+                board[1][i] === board[2][i]) {
+                return ["vertical", i];
+            }
+        }
+        return null;
+    }
+
     populateBoard();
 
     return { updateCell }
