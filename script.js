@@ -12,9 +12,11 @@ function createGameboard() {
 
     function updateCell(row, column, player) {
         if (board[row][column]) {
-            return "occupied";
+            return false;;
+        } else {
+            board[row][column] = player;
+            return true;
         }
-        board[row][column] = player;
     }
 
     function checkEqualHorizontals() {
@@ -72,17 +74,6 @@ function createGameboard() {
         return board[row][column] ? board[row][column].getSymbol() : " ";
     }
 
-    function print() {
-        for (let i = 0; i < 3; i++) {
-            console.log(
-                `${getCellSymbol(i, 0)} | ${getCellSymbol(i, 1)} | ${getCellSymbol(i, 2)}`
-            )
-            if (i !== 2) {
-                console.log("__________")
-            }
-        }
-    }
-
     populate();
 
     return { updateCell, checkAll, print }
@@ -97,15 +88,6 @@ function createPlayer(name, symbol) {
     }
     return { getName, getSymbol }
 }
-
-const DisplayController = (function () {
-    // function createBoard() {
-    //     const main = document.querySelector("main");
-    //     const board = document.createElement("div");
-    //     board.classList.add("board");
-    // }
-});
-
 
 function createGame(playerOne, playerTwo) {
     const players = [playerOne, playerTwo];
@@ -122,3 +104,11 @@ function createGame(playerOne, playerTwo) {
 
     return { getBoard, getPlayers, getCurrentPlayer, getRound, changeCurrentPlayer }
 }
+
+const DisplayController = (function () {
+    // function createBoard() {
+    //     const main = document.querySelector("main");
+    //     const board = document.createElement("div");
+    //     board.classList.add("board");
+    // }
+});
