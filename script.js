@@ -95,7 +95,11 @@ function createPlayer(name, symbol) {
     function getSymbol() {
         return symbol;
     }
-    return { getName, getSymbol }
+
+    function setName(newName) {
+        name = newName;
+    }
+    return { getName, getSymbol, setName }
 }
 
 function createGame(playerOne, playerTwo) {
@@ -122,9 +126,13 @@ function createGame(playerOne, playerTwo) {
 
     }
 
+    function updatePlayerName(index, newName) {
+        players[index].setName(newName);
+    }
+
     const getCurrentPlayer = () => currentPlayer;
 
-    return { updateCell: board.updateCell, getCurrentPlayer, checkWin }
+    return { updateCell: board.updateCell, getCurrentPlayer, checkWin, updatePlayerName }
 }
 
 
@@ -134,7 +142,9 @@ const DisplayController = (function () {
 
     function appendMainElements() {
         const center = createCenterContainer();
-        main.append(center);
+        const leftPlayerBox = createPlayerBox("x", "one", 0);
+        const rightPlayerBox = createPlayerBox("o", "two", 1);
+        main.append(leftPlayerBox, center, rightPlayerBox);
     }
 
     function createTextFeedback() {
@@ -156,6 +166,24 @@ const DisplayController = (function () {
         const board = createBoard();
         div.append(feedback, board);
         return div;
+    }
+
+    function createPlayerBox(symbol, placeholder, playerIndex) {
+        const container = document.createElement("div");
+        container.classList.add("player-box");
+        const input = document.createElement("input");
+        input.placeholder = placeholder;
+        input.setAttribute("name", symbol);
+        input.setAttribute("id", symbol)
+        const symbolParagraph = document.createElement("p");
+        const text = document.createTextNode("Symbol: ");
+        const span = document.createElement("span");
+        span.textContent = symbol;
+        symbolParagraph.append(text, span);
+
+        container.append(input, symbolParagraph);
+
+        return container;
     }
 
     function createCell(row, column) {
@@ -209,7 +237,7 @@ const DisplayController = (function () {
                 Player ${result.winner.getName()} (${result.winner.getSymbol()}) won with a ${result.direction}
                 `);
         } else {
-            updateTextFeedback(`It is a tie! No one wins!`);
+            updateTextFeedback(`It is a tie! Nobody wins!`);
         }
 
         switch (result.direction) {
