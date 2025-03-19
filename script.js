@@ -13,9 +13,20 @@ function createGameboard() {
         board[row][column] = player;
     }
 
-    populateBoard();
-    return { updateCell }
+    function checkEqualHorizontals() {
+        for (let i = 0; i < 3; i++) {
+            if (board[i][0] &&
+                board[i][0] === board[i][1] &&
+                board[i][1] === board[i][2]) {
+                return ["horizontal", i]
+            }
+        }
+        return null;
+    }
 
+    populateBoard();
+
+    return { updateCell }
 }
 
 function createPlayer(name, symbol) {
@@ -38,4 +49,11 @@ const Game = (function () {
         currentPlayer = players[round % 2];
     }
 
+    function play() {
+        console.log("Starting game...");
+        let winningSet;
+        while (!winningSet) {
+            console.log(`round #${round}, player${currentPlayer.getName()}`);
+        }
+    }
 })();
