@@ -15,6 +15,7 @@ body {
 main {
     display: flex;
     align-items: center;
+    gap: 5rem;
 }
 
 .board {
@@ -79,4 +80,24 @@ main {
 
 .center p {
     font-size: 2rem;
+}
+
+.player-box {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.player-box p {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.player-box input {
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+}
+
+.player-box p span {
+    font-weight: normal;
 }
