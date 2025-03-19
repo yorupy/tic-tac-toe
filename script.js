@@ -108,22 +108,32 @@ function createGame(playerOne, playerTwo) {
 const DisplayController = (function () {
     const game = createGame(createPlayer("one", "x"), createPlayer("two", "o"));
 
+    function createCell(row, column) {
+        const cell = document.createElement("button");
+        cell.classList.add("cell");
+        cell.textContent = " ";
+        cell.setAttribute("data-row", row);
+        cell.setAttribute("data-column", column);
+        cell.addEventListener("click", handleCellClick)
+        return cell;
+    }
+
+    function handleCellClick(e) {
+        const { row, column } = e.target.dataset;
+        const player = game.getCurrentPlayer();
+        if (game.getBoard().updateCell(row, column, player)) {
+            e.target.textContent = player.getSymbol();
+        }
+    }
+
     function createBoard() {
         const main = document.querySelector("main");
         const board = document.createElement("div");
         board.classList.add("board");
         for (let i = 0; i < 3; i++) {
-            const row = document.createElement("div");
-            row.classList.add("row");
             for (let j = 0; j < 3; j++) {
-                const cell = document.createElement("button");
-                cell.classList.add("cell");
-                cell.textContent = " ";
-                cell.setAttribute("data-row", i);
-                cell.setAttribute("data-column", j);
-                row.append(cell);
+                board.append(createCell(i, j));
             }
-            board.append(row);
         }
         main.append(board);
     }
