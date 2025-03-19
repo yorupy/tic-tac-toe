@@ -21,9 +21,46 @@ body {
 }
 
 .cell.picked {
-    background-color: green;
+    background-color: rgb(100, 255, 100);
 }
 
 .cell.tie {
-    background-color: brown;
+    background-color: rgb(255, 100, 100);
+}
+
+.cell {
+    background-color: inherit;
+    font-family: inherit;
+    font-size: 5rem;
+}
+
+.cell[data-row="0"] {
+    border-top: none;
+}
+
+.cell[data-row="2"] {
+    border-bottom: none;
+}
+
+.cell[data-column="0"] {
+    border-left: none;
+}
+
+.cell[data-column="2"] {
+    border-right: none;
+}
+
+.cell:not(:disabled):hover {
+    background-color: rgb(240, 240, 240);
+}
+
+
+.cell:not(:disabled):active {
+    background-color: rgb(230, 230, 230);
+}
+
+
+.cell:disabled {
+    border-color: black;
+    color: black;
 }

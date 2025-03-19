@@ -116,16 +116,15 @@ function createGame(playerOne, playerTwo) {
                 ...result
             };
         }
+        changeCurrentPlayer();
         return false;
 
     }
 
     const getBoard = () => board;
-    const getPlayers = () => players;
     const getCurrentPlayer = () => currentPlayer;
-    const getRound = () => round;
 
-    return { getBoard, getPlayers, getCurrentPlayer, getRound, changeCurrentPlayer, checkWin }
+    return { getBoard, getCurrentPlayer, changeCurrentPlayer, checkWin }
 }
 
 const DisplayController = (function () {
@@ -141,6 +140,19 @@ const DisplayController = (function () {
         return cell;
     }
 
+    function createBoard() {
+        const main = document.querySelector("main");
+        const board = document.createElement("div");
+        board.classList.add("board");
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                board.append(createCell(i, j));
+            }
+        }
+        main.append(board);
+    }
+
+
     function handleCellClick(e) {
         const { row, column } = e.target.dataset;
         const player = game.getCurrentPlayer();
@@ -149,8 +161,6 @@ const DisplayController = (function () {
             const result = game.checkWin();
             if (result) {
                 handleWin(result);
-            } else {
-                game.changeCurrentPlayer();
             }
         }
     }
@@ -212,18 +222,6 @@ const DisplayController = (function () {
             }
         }
         styleElements(cells, newClass);
-    }
-
-    function createBoard() {
-        const main = document.querySelector("main");
-        const board = document.createElement("div");
-        board.classList.add("board");
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                board.append(createCell(i, j));
-            }
-        }
-        main.append(board);
     }
 
     createBoard();
