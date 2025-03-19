@@ -1,7 +1,7 @@
 
 function createGameboard() {
     const board = [];
-    function populateBoard() {
+    function populate() {
         for (let i = 0; i < 3; i++) {
             board[i] = [];
             for (let j = 0; j < 3; j++) {
@@ -50,18 +50,24 @@ function createGameboard() {
         return checkEqualHorizontals || checkEqualVerticals || checkEqualDiagonals;
     }
 
-    function printBoard() {
+    function getCellSymbol(row, column) {
+        return board[row][column] ? board[row][column].getSymbol() : " ";
+    }
+
+    function print() {
         for (let i = 0; i < 3; i++) {
             console.log(
-                `${board[i][0].getSymbol()} | ${board[i][1].getSymbol()} | ${board[i][2].getSymbol()}`
+                `${getCellSymbol(i, 0)} | ${getCellSymbol(i, 1)} | ${getCellSymbol(i, 2)}`
             )
-            console.log("______")
+            if (i !== 2) {
+                console.log("__________")
+            }
         }
     }
 
-    populateBoard();
+    populate();
 
-    return { updateCell, checkAll, printBoard }
+    return { updateCell, checkAll, print }
 }
 
 function createPlayer(name, symbol) {
@@ -89,11 +95,16 @@ const Game = (function () {
         let winningSet;
         while (!winningSet) {
             console.log(`round #${round}, player${currentPlayer.getName()}`);
-            board.printBoard();
-            const move = prompt("pi")
+            board.print();
+            const move = prompt("Select row, column: ");
+            const [row, column] = move.split(",");
+            board.updateCell(row, column, currentPlayer);
+            round++;
+            changePlayer();
         }
     }
 
     return { play }
 })();
 
+Game.play();
