@@ -1,6 +1,7 @@
 
 function createGameboard() {
     const board = [];
+
     function populate() {
         for (let i = 0; i < 3; i++) {
             board[i] = [];
@@ -164,12 +165,24 @@ const DisplayController = (function () {
     function handleWin(result) {
         disableCells();
         switch (result.direction) {
+            case "horizontal":
+                updateCellsClass("row", result.row, "picked");
+                break;
+            case "vertical":
+                updateCellsClass("column", result.column, "picked");
+                break;
+            case "left-diagonal":
+
 
         }
     }
 
-    function updateWinnerRow(row) {
-
+    function updateCellsClass(direction, index, newClass) {
+        const cells = document.querySelectorAll(`.cell[data-${direction}="${index}"]`);
+        console.log(cells)
+        for (const cell of cells) {
+            cell.classList.add(newClass);
+        }
     }
 
     function createBoard() {
