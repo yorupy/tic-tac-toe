@@ -114,6 +114,15 @@ const Game = (function () {
         } while (move === "occupied")
     }
 
+    function printWinner(result) {
+        if (result[0] === "tie") {
+            console.log("Is a tie!! nobody wins!!");
+        } else {
+            const winner = board[result[1][0][0], result[1][0][1]];
+            console.log(`Player ${winner.getName()} wins!`)
+        }
+    }
+
     function play() {
         console.log("Starting game...");
         board.print();
@@ -126,7 +135,7 @@ const Game = (function () {
             board.print();
             winningSet = board.checkAll();
         }
-        console.log(winningSet);
+        printWinner(winningSet);
     }
 
     return { play }
