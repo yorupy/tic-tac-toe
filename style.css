@@ -13,19 +13,9 @@ body {
 }
 
 .board {
-    display: flex;
-    flex-direction: column;
     width: 30rem;
     height: 30rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
 }
-
-.board .row {
-    display: flex;
-    flex-grow: 1;
-}
-
-.row .cell {
-    flex-grow: 1;
-}
-
-.disabled {}
