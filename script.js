@@ -9,7 +9,11 @@ function createGameboard() {
             }
         }
     }
+
     function updateCell(row, column, player) {
+        if (board[row][column]) {
+            return "occupied";
+        }
         board[row][column] = player;
     }
 
@@ -101,17 +105,25 @@ const Game = (function () {
         currentPlayer = players[round % 2];
     }
 
+    function doPlayerMove() {
+        let move;
+        do {
+            const input = prompt("Select row, column: ");
+            const [row, column] = input.split(",");
+            move = board.updateCell(row, column, currentPlayer);
+        } while (move === "occupied")
+    }
+
     function play() {
         console.log("Starting game...");
+        board.print();
         let winningSet;
         while (!winningSet) {
             console.log(`round #${round}, player${currentPlayer.getName()}`);
-            board.print();
-            const move = prompt("Select row, column: ");
-            const [row, column] = move.split(",");
-            board.updateCell(row, column, currentPlayer);
+            doPlayerMove();
             round++;
             changePlayer();
+            board.print();
         }
     }
 
