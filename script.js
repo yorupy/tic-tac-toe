@@ -174,9 +174,7 @@ const DisplayController = (function () {
         button.setAttribute("type", "button");
         button.textContent = "Start";
         button.classList.add("reset");
-
         button.addEventListener("click", handleResetClick);
-
         return button;
     }
 
@@ -187,10 +185,18 @@ const DisplayController = (function () {
         playerTwoInput.disabled = true;
     }
 
+    function updateNames() {
+        const playerOneName = document.querySelector("#x").value;
+        const playerTwoName = document.querySelector("#o").value;
+        game.updatePlayerName(0, playerOneName ? playerOneName : "one");
+        game.updatePlayerName(1, playerTwoName ? playerTwoName : "two");
+    }
+
     function handleResetClick(e) {
         if (e.target.textContent === "Start") {
             e.target.textContent = "Reset";
             switchCells(false);
+            updateNames();
             disableNameInputs();
         } else {
             resetDisplay();
@@ -209,7 +215,6 @@ const DisplayController = (function () {
         const span = document.createElement("span");
         span.textContent = symbol;
         symbolParagraph.append(text, span);
-
         container.append(input, symbolParagraph);
 
         return container;
