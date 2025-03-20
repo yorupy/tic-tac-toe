@@ -102,8 +102,8 @@ function createPlayer(name, symbol) {
     return { getName, getSymbol, setName }
 }
 
-function createGame(playerOne, playerTwo) {
-    const players = [playerOne, playerTwo];
+function createGame() {
+    const players = [createPlayer("one", "x"), createPlayer("two", "o")];
     const board = createGameboard();
     let round = 0;
     let currentPlayer = players[0];
@@ -137,7 +137,7 @@ function createGame(playerOne, playerTwo) {
 
 
 const DisplayController = (function () {
-    let game = createGame(createPlayer("one", "x"), createPlayer("two", "o"));
+    let game = createGame();
     const main = document.querySelector("main");
 
     function appendMainElements() {
@@ -326,7 +326,7 @@ const DisplayController = (function () {
     }
 
     function resetDisplay() {
-        game = createGame(createPlayer("one", "x"), createPlayer("two", "o"));
+        game = createGame();
         main.replaceChildren();
         appendMainElements();
     }
